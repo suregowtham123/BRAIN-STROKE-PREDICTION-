@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brain Stroke Prediction</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* Body Styling */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #e09, #d0e);
+            color: #333;
+        }
+
+        /* Form Container */
+        .container {
+            background-color: #fff;
+            padding: 2em;
+            max-width: 500px;
+            width: 90%;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Header */
+        h1 {
+            text-align: center;
+            color: #444;
+            margin-bottom: 1em;
+        }
+
+        /* Form Label */
+        label {
+            display: block;
+            margin-bottom: 0.5em;
+            font-weight: bold;
+        }
+
+        /* Form Input */
+        input[type="text"] {
+            width: 100%;
+            padding: 0.8em;
+            margin-bottom: 1em;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        /* Button */
+        button {
+            width: 100%;
+            padding: 0.8em;
+            font-size: 1em;
+            font-weight: bold;
+            color: #fff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Prediction Result Styling */
+        h2 {
+            margin-top: 1em;
+            text-align: center;
+        }
+
+        /* Error Message */
+        .error {
+            color: #ff4d4d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Brain Stroke Prediction</h1>
+        <form action="/predict" method="post">
+            <label>Gender (1 for Male, 0 for Female):</label>
+            <input type="text" name="gender" required><br>
+            <label>Age:</label>
+            <input type="text" name="age" required><br>
+            <label>Hypertension (1 for Yes, 0 for No):</label>
+            <input type="text" name="hypertension" required><br>
+            <label>Heart Disease (1 for Yes, 0 for No):</label>
+            <input type="text" name="heart_disease" required><br>
+            <label>Ever Married (1 for Yes, 0 for No):</label>
+            <input type="text" name="ever_married" required><br>
+            <label>Work Type (1=Private, 2=Self-employed):</label>
+            <input type="text" name="work_type" required><br>
+            <label>Residence Type (1=Urban, 0=Rural):</label>
+            <input type="text" name="residence_type" required><br>
+            <label>Average Glucose Level:</label>
+            <input type="text" name="avg_glucose_level" required><br>
+            <label>BMI:</label>
+            <input type="text" name="bmi" required><br>
+            <label>Smoking Status (0=Never smoked, 1=Formerly smoked, 2=Smokes):</label>
+            <input type="text" name="smoking_status" required><br>
+            <button type="submit">Predict</button>
+        </form>
+
+        {% if prediction %}
+            <h2>Prediction: {{ prediction }}</h2>
+        {% endif %}
+        {% if error %}
+            <h2 class="error">Error: {{ error }}</h2>
+        {% endif %}
+    </div>
+</body>
+</html>
