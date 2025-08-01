@@ -75,7 +75,9 @@ This project aims to detect the risk of brain stroke using machine learning tech
 | Deployment       | Flask (for ML model deployment)  |
 
 
-## 🚀 How to Run the Project
+## 🚀 Screenshots
+![FrontEnd Page](.png)
+
 
 ### 1. Clone the Repository
 ```bash
