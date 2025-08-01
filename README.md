@@ -77,7 +77,7 @@ This project aims to detect the risk of brain stroke using machine learning tech
 
 
 ## 🚀 Screenshots
-![FrontEnd Page](Screenshot 2025-08-01 104338.png)
+![FrontEnd Page](dashboard.png)
 
 
 
