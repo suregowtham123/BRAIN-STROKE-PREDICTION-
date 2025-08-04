@@ -1,125 +1,117 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brain Stroke Prediction</title>
-    <style>
-        /* Basic Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        /* Body Styling */
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #e09, #d0e);
-            color: #333;
-        }
-
-        /* Form Container */
-        .container {
-            background-color: #fff;
-            padding: 2em;
-            max-width: 500px;
-            width: 90%;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Header */
-        h1 {
-            text-align: center;
-            color: #444;
-            margin-bottom: 1em;
-        }
-
-        /* Form Label */
-        label {
-            display: block;
-            margin-bottom: 0.5em;
-            font-weight: bold;
-        }
-
-        /* Form Input */
-        input[type="text"] {
-            width: 100%;
-            padding: 0.8em;
-            margin-bottom: 1em;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1em;
-        }
-
-        /* Button */
-        button {
-            width: 100%;
-            padding: 0.8em;
-            font-size: 1em;
-            font-weight: bold;
-            color: #fff;
-            background-color: #4CAF50;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        /* Prediction Result Styling */
-        h2 {
-            margin-top: 1em;
-            text-align: center;
-        }
-
-        /* Error Message */
-        .error {
-            color: #ff4d4d;
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
-<body>
-    <div class="container">
-        <h1>Brain Stroke Prediction</h1>
-        <form action="/predict" method="post">
-            <label>Gender (1 for Male, 0 for Female):</label>
-            <input type="text" name="gender" required><br>
-            <label>Age:</label>
-            <input type="text" name="age" required><br>
-            <label>Hypertension (1 for Yes, 0 for No):</label>
-            <input type="text" name="hypertension" required><br>
-            <label>Heart Disease (1 for Yes, 0 for No):</label>
-            <input type="text" name="heart_disease" required><br>
-            <label>Ever Married (1 for Yes, 0 for No):</label>
-            <input type="text" name="ever_married" required><br>
-            <label>Work Type (1=Private, 2=Self-employed):</label>
-            <input type="text" name="work_type" required><br>
-            <label>Residence Type (1=Urban, 0=Rural):</label>
-            <input type="text" name="residence_type" required><br>
-            <label>Average Glucose Level:</label>
-            <input type="text" name="avg_glucose_level" required><br>
-            <label>BMI:</label>
-            <input type="text" name="bmi" required><br>
-            <label>Smoking Status (0=Never smoked, 1=Formerly smoked, 2=Smokes):</label>
-            <input type="text" name="smoking_status" required><br>
-            <button type="submit">Predict</button>
-        </form>
+<body class="bg-light">
+<div class="container mt-5">
+    <h2 class="text-center mb-4">🧠 Brain Stroke Prediction</h2>
+    
+    <form method="POST" action="/predict">
+        <div class="mb-3">
+            <label for="gender" class="form-label">Gender:</label>
+            <select class="form-select" id="gender" name="gender" required>
+                <option value="" disabled selected>Select gender</option>
+                <option value="0">Male</option>
+                <option value="1">Female</option>
+                <option value="2">Other</option>
+            </select>
+        </div>
 
-        {% if prediction %}
-            <h2>Prediction: {{ prediction }}</h2>
-        {% endif %}
-        {% if error %}
-            <h2 class="error">Error: {{ error }}</h2>
-        {% endif %}
-    </div>
+        <div class="mb-3">
+            <label for="age" class="form-label">Age:</label>
+            <input type="number" step="0.1" class="form-control" id="age" name="age" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Hypertension:</label>
+            <select class="form-select" name="hypertension" required>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Heart Disease:</label>
+            <select class="form-select" name="heart_disease" required>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Ever Married:</label>
+            <select class="form-select" name="ever_married" required>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Work Type:</label>
+            <select class="form-select" name="work_type" required>
+                <option value="0">Private</option>
+                <option value="1">Self-employed</option>
+                <option value="2">Govt_job</option>
+                <option value="3">children</option>
+                <option value="4">Never_worked</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Residence Type:</label>
+            <select class="form-select" name="residence_type" required>
+                <option value="0">Urban</option>
+                <option value="1">Rural</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="avg_glucose_level" class="form-label">Average Glucose Level:</label>
+            <input type="number" step="0.01" class="form-control" id="avg_glucose_level" name="avg_glucose_level" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="bmi" class="form-label">BMI:</label>
+            <input type="number" step="0.1" class="form-control" id="bmi" name="bmi" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Smoking Status:</label>
+            <select class="form-select" name="smoking_status" required>
+                <option value="0">Never smoked</option>
+                <option value="1">Formerly smoked</option>
+                <option value="2">Smokes</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-success w-100">Predict</button>
+    </form>
+
+    {% if prediction %}
+        <div class="alert alert-info mt-4 text-center">
+            <h4>🧾 Prediction: <strong>{{ prediction }}</strong></h4>
+        </div>
+    {% endif %}
+
+    {% if input_data %}
+        <div class="mt-4">
+            <h5>🔍 Input Details:</h5>
+            <ul class="list-group">
+                {% for key, value in input_data.items() %}
+                    <li class="list-group-item"><strong>{{ key }}:</strong> {{ value }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    {% if error %}
+        <div class="alert alert-danger mt-4 text-center">
+            <strong>Error:</strong> {{ error }}
+        </div>
+    {% endif %}
+</div>
 </body>
 </html>
