@@ -19,7 +19,6 @@ def index():
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
-        # Extract form data
         gender = int(request.form.get('gender', 0))
         age = float(request.form.get('age', 0))
         hypertension = int(request.form.get('hypertension', 0))
@@ -31,27 +30,23 @@ def predict():
         bmi = float(request.form.get('bmi', 0))
         smoking_status = int(request.form.get('smoking_status', 0))
 
-        # Column names used during model training
-        columns = ['gender', 'age', 'hypertension', 'heart_disease', 'ever_married',
-                   'work_type', 'residence_type', 'avg_glucose_level', 'bmi', 'smoking_status']
+        sample_input = [gender, age, hypertension, heart_disease, ever_married,
+                        work_type, residence_type, avg_glucose_level, bmi, smoking_status]
 
-        # Create DataFrame
-        input_df = pd.DataFrame([[gender, age, hypertension, heart_disease, ever_married,
-                                  work_type, residence_type, avg_glucose_level, bmi, smoking_status]],
-                                columns=columns)
+        print("Sample input:", sample_input)
 
-        # Prediction
-        prediction = model.predict(input_df)
+        prediction = model.predict([sample_input])
         result = "Stroke" if prediction[0] == 1 else "No Stroke"
         
         return render_template('index.html', prediction=result)
 
     except Exception as e:
-        print("❌ Error in prediction:", e)
-        traceback.print_exc()
+        print(f"Error in prediction: {e}")
         return render_template('index.html', error="Error making prediction. Check input values.")
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=10000)
+
 
 
