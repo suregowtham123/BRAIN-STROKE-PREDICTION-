@@ -44,4 +44,6 @@ def predict():
         return render_template('index.html', error="Error making prediction. Check input values.")
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=10000)
+
+
