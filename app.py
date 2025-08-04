@@ -1,14 +1,16 @@
 from flask import Flask, render_template, request
 import joblib
+import pandas as pd
+import traceback
 
 app = Flask(__name__)
 
 # Load the model
 try:
     model = joblib.load('model.pkl')
-    print("Model loaded successfully")
+    print("✅ Model loaded successfully")
 except Exception as e:
-    print(f"Error loading model: {e}")
+    print(f"❌ Error loading model: {e}")
 
 @app.route('/')
 def index():
@@ -29,21 +31,25 @@ def predict():
         bmi = float(request.form.get('bmi', 0))
         smoking_status = int(request.form.get('smoking_status', 0))
 
-        # Format the input for the model
-        sample_input = [gender, age, hypertension, heart_disease, ever_married,
-                        work_type, residence_type, avg_glucose_level, bmi, smoking_status]
+        # Column names used during model training
+        columns = ['gender', 'age', 'hypertension', 'heart_disease', 'ever_married',
+                   'work_type', 'residence_type', 'avg_glucose_level', 'bmi', 'smoking_status']
+
+        # Create DataFrame
+        input_df = pd.DataFrame([[gender, age, hypertension, heart_disease, ever_married,
+                                  work_type, residence_type, avg_glucose_level, bmi, smoking_status]],
+                                columns=columns)
 
         # Prediction
-        prediction = model.predict([sample_input])
+        prediction = model.predict(input_df)
         result = "Stroke" if prediction[0] == 1 else "No Stroke"
         
         return render_template('index.html', prediction=result)
 
     except Exception as e:
-        print(f"Error in prediction: {e}")
+        print("❌ Error in prediction:", e)
+        traceback.print_exc()
         return render_template('index.html', error="Error making prediction. Check input values.")
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=10000)
-
-
+    app.run(debug=True)
