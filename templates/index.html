@@ -1,110 +1,125 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brain Stroke Prediction</title>
     <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* Body Styling */
         body {
             font-family: Arial, sans-serif;
-            background: #f7f7f7;
-            margin: 50px;
-        }
-        h1 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #e09, #d0e);
             color: #333;
         }
-        form {
-            background: white;
-            padding: 20px;
+
+        /* Form Container */
+        .container {
+            background-color: #fff;
+            padding: 2em;
+            max-width: 500px;
+            width: 90%;
             border-radius: 10px;
-            max-width: 600px;
-            margin: auto;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
-        label, select, input {
+
+        /* Header */
+        h1 {
+            text-align: center;
+            color: #444;
+            margin-bottom: 1em;
+        }
+
+        /* Form Label */
+        label {
             display: block;
-            width: 100%;
-            margin-top: 10px;
+            margin-bottom: 0.5em;
+            font-weight: bold;
         }
-        input[type="submit"] {
-            background: #4CAF50;
-            color: white;
-            padding: 10px;
-            margin-top: 20px;
+
+        /* Form Input */
+        input[type="text"] {
+            width: 100%;
+            padding: 0.8em;
+            margin-bottom: 1em;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        /* Button */
+        button {
+            width: 100%;
+            padding: 0.8em;
+            font-size: 1em;
+            font-weight: bold;
+            color: #fff;
+            background-color: #4CAF50;
             border: none;
             border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
-        .result {
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Prediction Result Styling */
+        h2 {
+            margin-top: 1em;
             text-align: center;
-            font-size: 20px;
-            margin-top: 20px;
-            color: green;
         }
+
+        /* Error Message */
         .error {
-            color: red;
-            text-align: center;
-        }
-        .input-data {
-            background: #eef;
-            padding: 10px;
-            margin-top: 20px;
-            border-radius: 10px;
+            color: #ff4d4d;
         }
     </style>
 </head>
 <body>
-    <h1 align="center">🧠 Brain Stroke Prediction</h1>
-    <form action="/predict" method="POST">
-        <label>Gender (0: Female, 1: Male):</label>
-        <input type="number" name="gender" required>
+    <div class="container">
+        <h1>Brain Stroke Prediction</h1>
+        <form action="/predict" method="post">
+            <label>Gender (1 for Male, 0 for Female):</label>
+            <input type="text" name="gender" required><br>
+            <label>Age:</label>
+            <input type="text" name="age" required><br>
+            <label>Hypertension (1 for Yes, 0 for No):</label>
+            <input type="text" name="hypertension" required><br>
+            <label>Heart Disease (1 for Yes, 0 for No):</label>
+            <input type="text" name="heart_disease" required><br>
+            <label>Ever Married (1 for Yes, 0 for No):</label>
+            <input type="text" name="ever_married" required><br>
+            <label>Work Type (1=Private, 2=Self-employed):</label>
+            <input type="text" name="work_type" required><br>
+            <label>Residence Type (1=Urban, 0=Rural):</label>
+            <input type="text" name="residence_type" required><br>
+            <label>Average Glucose Level:</label>
+            <input type="text" name="avg_glucose_level" required><br>
+            <label>BMI:</label>
+            <input type="text" name="bmi" required><br>
+            <label>Smoking Status (0=Never smoked, 1=Formerly smoked, 2=Smokes):</label>
+            <input type="text" name="smoking_status" required><br>
+            <button type="submit">Predict</button>
+        </form>
 
-        <label>Age:</label>
-        <input type="number" step="0.01" name="age" required>
-
-        <label>Hypertension (0: No, 1: Yes):</label>
-        <input type="number" name="hypertension" required>
-
-        <label>Heart Disease (0: No, 1: Yes):</label>
-        <input type="number" name="heart_disease" required>
-
-        <label>Ever Married (0: No, 1: Yes):</label>
-        <input type="number" name="ever_married" required>
-
-        <label>Work Type (e.g., 0 to 4):</label>
-        <input type="number" name="work_type" required>
-
-        <label>Residence Type (0: Urban, 1: Rural):</label>
-        <input type="number" name="residence_type" required>
-
-        <label>Average Glucose Level:</label>
-        <input type="number" step="0.01" name="avg_glucose_level" required>
-
-        <label>BMI:</label>
-        <input type="number" step="0.01" name="bmi" required>
-
-        <label>Smoking Status (e.g., 0 to 3):</label>
-        <input type="number" name="smoking_status" required>
-
-        <input type="submit" value="Predict">
-    </form>
-
-    {% if prediction %}
-    <div class="result">
-        <h2>🩺 Prediction Result: {{ prediction }}</h2>
+        {% if prediction %}
+            <h2>Prediction: {{ prediction }}</h2>
+        {% endif %}
+        {% if error %}
+            <h2 class="error">Error: {{ error }}</h2>
+        {% endif %}
     </div>
-    {% endif %}
-
-    {% if input_data %}
-    <div class="input-data">
-        <h3>Input Used:</h3>
-        <ul>
-        {% for key, value in input_data.items() %}
-            <li><strong>{{ key }}:</strong> {{ value }}</li>
-        {% endfor %}
-        </ul>
-    </div>
-    {% endif %}
-
-    {% if error %}
-    <p class="error">{{ error }}</p>
-    {% endif %}
 </body>
 </html>
